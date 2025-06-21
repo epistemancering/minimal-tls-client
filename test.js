@@ -8,15 +8,12 @@ const httpsServer = https.createServer(
     (request, response) => {
         response.end("success")
     }
-).listen(
-    undefined,
-    async () => {
-        (await tls(
-            { port: /**@type {net.AddressInfo}*/(httpsServer.address()).port },
-            (response) => {
-                console.log(String.fromCharCode(...response))
-                process.exit()
-            }
-        ))(new TextEncoder().encode("GET / HTTP/1.1\r\nhost:\r\n\r\n"))
-    }
-)
+).listen(async () => {
+    (await tls(
+        { port: /**@type {net.AddressInfo}*/(httpsServer.address()).port },
+        (response) => {
+            console.log(String.fromCharCode(...response))
+            process.exit()
+        }
+    ))(new TextEncoder().encode("GET / HTTP/1.1\r\nhost:\r\n\r\n"))
+})
